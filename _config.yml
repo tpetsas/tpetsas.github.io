@@ -22,7 +22,7 @@ resume: true
 #resume-url: https://google.com/?q=my+resume
 resume-url: media/pdfs/CV_petsas.pdf
 
-url: https://tpetsas.github.io/
+url: https://thanasispetsas.com
 # your url: http://USERNAME.github.io
 
 permalink: /:title/
