@@ -1,0 +1,15 @@
+---
+layout: default
+---
+
+{% include nav.html %}
+
+{% assign set_copyrights = false %}
+{% include footer.html %}
+
+{% include header.html %}
+
+{{content}}
+
+{% assign set_copyrights = true %}
+{% include footer.html %}

@@ -1,0 +1,8 @@
+{% if set_copyrights %}
+  <footer class="footer-main">
+    {{ site.name }} © {{ site.time | date: '%Y' }}
+  </footer>
+{% else %}
+   <footer class="footer-upper">
+  </footer> 
+{% endif %}
