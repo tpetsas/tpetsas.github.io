@@ -17,14 +17,14 @@ Computer Science
 
 
 I hold a B.Sc. ('09) and a M.Sc. ('12) degree in Computer Science from the Computer Science Department ([CSD][]) at the
-University of Crete ([UOC][]), Greece. During my studies I had the opportunity to work on several reseach projects in the
+University of Crete ([UOC][]), Greece. During my studies I had the opportunity to work on several research projects in the
 wide area of networking and distributed systems, focusing mostly on Mobile Security.
 
 I worked as a Research Assistant (2009--2012) and R&D Engineer (2012--2015) at the Distributed Computing Systems
 Laboratory ([DCS][]) of Institute of Computer Science ([ICS][]), at the Foundation for Research and Technology, Hellas ([FORTH][]).
 In 2016, I joined **[Appthority][]**, a Mobile Security company in San Francisco, focusing on enterprise threat protection. While
 on Appthority, I worked on static and dynamic analysis of Android applications. Recently, I joined **[Symantec][]** through the
-Appthority aquisition (2018) and I am part of the Modern OS Security team.
+Appthority acquisition (2018) and I am part of the Modern OS Security team.
 
 [CSD]: http://www.csd.uoc.gr/
 [UOC]: http://www.uoc.gr/
