@@ -114,7 +114,7 @@ reviews about concerts I went on a greek music portal, [Rocking.gr][rocking].
 
 You can read some of my live reviews on the following links:
 <ul>
-	<li><a href="http://www.rocking.gr/article5520.php" target="_blank"> Mogwai, Misuse @ Gagarin 205, Athens, 20/02/09 </a></li>
+	<li><a href="https://www.rocking.gr/live/Mogwai_Misuse_live_se_Athina_kai_Thessaloniki/5520" target="_blank"> Mogwai, Misuse @ Gagarin 205, Athens, 20/02/09 </a></li>
 	<li> <a href="http://www.rocking.gr/live/Explosions_In_The_Sky_Eluvium_@_AN_Club_02/02/08/4246/" target="_blank"> Explosions In The Sky, Eluvium @ AN Club, 02/02/08 </a></li>
 	<li> <a href="http://www.rocking.gr/live/Red_Sparowes_Since_%28Time%29_@_AN_Club_31/05/07/3534/" target="_blank"> Red Sparowes, Since (Time) @ AN Club, 31/05/07 </a></li>
 </ul> 
