@@ -65,7 +65,7 @@ My research interests include:
 You can take a look at my [publications][] or download my [CV][].
 
 [publications]: /publications/
-[CV]: /media/pdfs/CV_petsas.pdf
+[CV]: /media/pdfs/cv.pdf
 
 
 Photography
