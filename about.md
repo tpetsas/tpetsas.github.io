@@ -53,7 +53,7 @@ I have also participated in the following Cyber Defense exercises:
 * 1st National Cyber Defense Exercise – Greece (Panoptis 2010)
 
 [IWSEC2012-comp]: http://www.iwsec.org/2012/events.html
-[SYSSECWINS]: http://ec.europa.eu/digital-agenda/en/news/syssec-research-wins-gold-prize-iwsec-malware-analysis-competition
+[SYSSECWINS]: http://www.syssec-project.eu/news/2012/11/23/forth-gold-prize-iwsec12/
 
 My research interests include:
 
