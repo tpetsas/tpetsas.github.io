@@ -21,15 +21,15 @@ You pick up a small, glowing 20-sided die from your desk. It's heavier than you 
 
 That's the hook. That's the feeling I was chasing for months. This is the story of how I got there — first by tearing the game apart in a disassembler, and then by teaching Windows to keep a stubborn little radio dice connected long enough to actually play with.
 
-<figure style="text-align:center;">
+<figure style="margin: 0; text-align:center;">
+  <div>
   <img
     src="/media/images/bg3-dice/bg3-dice-demo.gif"
     alt="BG3 Smart Dice Rolls in action"
     style="max-width:100%; height:auto;">
+  </div>
     <em>BG3 Smart Dice Rolls Mod sneak peek!</em>
 </figure>
-
-
 
 
 ---
@@ -53,8 +53,12 @@ One of the most fascinating things about Baldur’s Gate 3 is how intentionally 
 >
 > “Players should be able to bend this game into something new.”
 
-![Baldur's Gate 3 Mod Manager found in Game's Main Menu](/media/images/bg3-dice/modmanager.png)
-*Baldur's Gate 3 Mod Manager found in Game's Main Menu.*
+<div align="center">
+  <img src="/media/images/bg3-dice/modmanager.png"
+       alt="Baldur's Gate 3 Mod Manager found in Game's Main Menu">
+  <br>
+  <em>Baldur's Gate 3 Mod Manager found in Game's Main Menu.</em>
+</div>
 
 And honestly, that openness is one of the reasons this project exists at all. For most mods, the official ecosystem is more than enough The [BG3 Mod Manager](https://github.com/LaughingLeader/BG3ModManager), together with Larian’s toolkit and [Norbyte's Script Extender](https://github.com/Norbyte/bg3se) support, allows creators to build remarkably sophisticated modifications without ever touching the native executable. Entire gameplay systems can be rewritten through data-driven approaches: *custom classes*, *spells*, *passives*, *UI additions*, even new mechanics and balance overhauls, all of them and many more are possible with those tools alone. The community has built massive projects entirely utilizing those frameworks.
 While I was researching about this project, I found existing mods capable of manipulating dialogue roll outcomes entirely through Script Extender and Lua. Mods like [manual dice roll systems](https://www.nexusmods.com/baldursgate3/mods/21070) already demonstrated that BG3’s scripting layer could influence rolls at a fairly high level.
@@ -82,8 +86,12 @@ At the beginning, almost every function that manipulated roll-related data looke
 
 One of the earliest hooks I experimented with was a function I nicknamed `RollCopy`, because its behavior appeared to mostly involve copying roll-related structures from one place to another.
 
-![RollCopy in Ghidra](/media/images/bg3-dice/RollCopy.png)
-*`RollCopy` function in Ghidra — The bitmask logic applied on `param_10` in the part that is shown is used to construct the advantage/disadvantage states.*
+<div align="center">
+  <img src="/media/images/bg3-dice/RollCopy.png"
+       alt="RollCopy in Ghidra">
+  <br>
+  <em><code>RollCopy</code> function in Ghidra — The bitmask logic applied on <code>param_10</code> in the part that is shown is used to construct the advantage/disadvantage states.</em>
+</div>
 
 The logs looked extremely convincing:
 ```
@@ -93,8 +101,12 @@ There were repeating values, d20-looking patterns (0x14 == 20), and fields that 
 
 Even after forcing obviously natural 20s against a difficulty class of 15, the game would report failure as shown in the screenshot below:
 
-![RollCopy failure](/media/images/bg3-dice/RollCopyFailure.png)
-*RollCopy failure — The game reports failure even after forcing a natural 20.*
+<div align="center">
+  <img src="/media/images/bg3-dice/RollCopyFailure.png"
+       alt="RollCopy failure">
+  <br>
+  <em>RollCopy failure — The game reports failure even after forcing a natural 20.</em>
+</div>
 
 That was the moment where it became clear that I was not modifying the authoritative gameplay state. I was patching something downstream, most likely a copied or presentation-oriented structure used by the UI or intermediate systems. And Baldur’s Gate 3 appears to have many of those.
 
@@ -112,8 +124,12 @@ Ironically, the solution was not hidden behind especially complicated obfuscatio
 
 And once that distinction finally clicked, everything else started falling into place.
 
-![ResolveDialogueRoll in Ghidra](/media/images/bg3-dice/ResolveDialogueRoll.png)
-*`ResolveDialogueRoll` in Ghidra — The function that actually decides whether a dialogue roll succeeds or fails.*
+<div align="center">
+  <img src="/media/images/bg3-dice/ResolveDialogueRoll.png"
+       alt="ResolveDialogueRoll in Ghidra">
+  <br>
+  <em><code>ResolveDialogueRoll</code> in Ghidra — The function that actually decides whether a dialogue roll succeeds or fails.</em>
+</div>
 
 
 ### Reconstructing DialogueRollState
@@ -203,7 +219,12 @@ I started instrumenting the radio. RSSI was good. The dice were a foot from my P
 
 Then, on a hunch, I went and looked up the chipset on my motherboard.
 
-![Aorus B650 chipset](/media/images/bg3-dice/aorus-B650-Elite.png) *My motherboar's BLE chipset turned out to be the main culprit for the poor connectivity.*
+<div align="center">
+  <img src="/media/images/bg3-dice/aorus-B650-Elite.png"
+       alt="Aorus B650 chipset">
+  <br>
+  <em>My motherboard's BLE chipset turned out to be the main culprit for the poor connectivity.</em>
+</div>
 
 The board is a GIGABYTE B650 AORUS Elite — a fine board, otherwise. Its onboard Bluetooth, however, is a Realtek module. And as it turns out, the Realtek + Windows BLE story for sustained low-latency connections to peripheral devices is, charitably, *not exactly its strongest feature*.
 
@@ -240,7 +261,7 @@ Enough with all the technical stuff. I could keep going all day about the BLE qu
 
 It's simple, it's effective, and it works flawlessly with the ASUS USB-BT500 dongle. I've had some much fun so far with it! Let's see it in action:
 
-<figure style="margin: 0;">
+<figure style="margin: 0; text-align:center;">
   <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
     <iframe
       style="position:absolute;top:0;left:0;width:100%;height:100%;"
