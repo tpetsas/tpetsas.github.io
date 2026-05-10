@@ -21,6 +21,17 @@ You pick up a small, glowing 20-sided die from your desk. It's heavier than you 
 
 That's the hook. That's the feeling I was chasing for months. This is the story of how I got there — first by tearing the game apart in a disassembler, and then by teaching Windows to keep a stubborn little radio dice connected long enough to actually play with.
 
+<figure style="text-align:center;">
+  <img
+    src="/media/images/bg3-dice/bg3-dice-demo.gif"
+    alt="BG3 Smart Dice Rolls in action"
+    style="max-width:100%; height:auto;">
+    <em>BG3 Smart Dice Rolls Mod sneak peek!</em>
+</figure>
+
+
+
+
 ---
 
 ## Part 1 — Cracking Open the Game
@@ -228,6 +239,20 @@ Enough with all the technical stuff. I could keep going all day about the BLE qu
 4. The animation starts automatically and the roll result reflects the actual value rolled
 
 It's simple, it's effective, and it works flawlessly with the ASUS USB-BT500 dongle. I've had some much fun so far with it! Let's see it in action:
+
+<figure style="margin: 0;">
+  <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+    <iframe
+      style="position:absolute;top:0;left:0;width:100%;height:100%;"
+      src="https://www.youtube.com/embed/_Y7Jcm_EDR8"
+      title="BG3 Real Dice Rolls Showcase"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+    <em>BG3 Smart Dice Rolls Mod in action!</em>
+</figure>
 
 It works with mouse & keyboard, as well as with gamepads. It works also on coop mode. Both players can share the dice. It suppport multiple dice rolling at the same time, e.g., advantage/disadvantage rolls.
 
