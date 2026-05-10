@@ -41,5 +41,17 @@
             {% endif %}
         {% endif %}
 
+        {% if site.blog == true %}
+            {% if page.title == "Blog" %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/blog" style="color:#666">Blog</a>
+                </li>
+            {% else %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/blog">Blog</a>
+                </li>
+            {% endif %}
+        {% endif %}
+
     </ul>
 </nav>
