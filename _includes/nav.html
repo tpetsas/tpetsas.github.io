@@ -29,18 +29,6 @@
         {% endif %}
 
 
-        {% if site.about == true %}
-            {% if page.title == "About" %}
-                <li class="item">
-                    <a class="link" href="{{ site.url }}/about" style="color:#666">About</a>
-                </li>
-            {% else %}
-                <li class="item">
-                    <a class="link" href="{{ site.url }}/about">About</a>
-                </li>
-            {% endif %}
-        {% endif %}
-
         {% if site.blog == true %}
             {% if page.title == "Blog" %}
                 <li class="item">
@@ -49,6 +37,18 @@
             {% else %}
                 <li class="item">
                     <a class="link" href="{{ site.url }}/blog">Blog</a>
+                </li>
+            {% endif %}
+        {% endif %}
+
+        {% if site.about == true %}
+            {% if page.title == "About" %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/about" style="color:#666">About</a>
+                </li>
+            {% else %}
+                <li class="item">
+                    <a class="link" href="{{ site.url }}/about">About</a>
                 </li>
             {% endif %}
         {% endif %}
