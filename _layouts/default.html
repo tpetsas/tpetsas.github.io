@@ -31,7 +31,7 @@ layout: compress
 </head>
 <body>
 
-    <div class="wrapper-{% if site.width == "normal" %}normal{% elsif site.width == "large" %}large{% endif %}">
+    <div class="wrapper-{% if page.width == "large" or site.width == "large" %}large{% else %}normal{% endif %}">
         {% if page.tag %}
             <div class="post">
         {% else %}
