@@ -38,11 +38,11 @@ That's the hook. That's the feeling I was chasing for months. This is the story 
 
 ### The naivety
 
-I started this project the way I start every project that ends up taking couple of weeks: by assuming it would take a weekend.
+I started this project the way I start every project that ends up taking a couple of weeks: by assuming it would take a weekend.
 
 The plan, as it lived in my head on day one, was simple. Baldur's Gate 3 rolls a die somewhere in its code. I find that "somewhere," I overwrite the result with whatever number my physical die rolled, the game proceeds. How hard could it be?
 
-There were a few things I didn't know yet. I didn't know the game generates rolls in dozens of contexts and most of them aren't the one I cared about. I didn't know that the value I'd eventually find on the stack would be a *copy* of the result that the game had already stored somewhere else and stopped looking at. I didn't know the word "calling convention" was about to become my enemy. And I definitely didn't know that the  Bluetooth Low Energy (BLE) stack on Windows would be a nightmare to work with due to the big diversity of implementations and quirks.
+There were a few things I didn't know yet. I didn't know the game generates rolls in dozens of contexts and most of them aren't the one I cared about. I didn't know that the value I'd eventually find on the stack would be a *copy* of the result that the game had already stored somewhere else and stopped looking at. I didn't know the word "calling convention" was about to become my enemy. And I definitely didn't know that the Bluetooth Low Energy (BLE) stack on Windows would be a nightmare to work with due to the big diversity of implementations and quirks.
 
 Anyway, I started with [Ghidra](https://github.com/NationalSecurityAgency/ghidra), a copy of [MinHook](https://github.com/TsudaKageyu/minhook), and an unfounded confidence. So off I went.
 
@@ -60,24 +60,24 @@ One of the most fascinating things about Baldur’s Gate 3 is how intentionally 
   <em>Baldur's Gate 3 Mod Manager found in Game's Main Menu.</em>
 </div>
 
-And honestly, that openness is one of the reasons this project exists at all. For most mods, the official ecosystem is more than enough The [BG3 Mod Manager](https://github.com/LaughingLeader/BG3ModManager), together with Larian’s toolkit and [Norbyte's Script Extender](https://github.com/Norbyte/bg3se) support, allows creators to build remarkably sophisticated modifications without ever touching the native executable. Entire gameplay systems can be rewritten through data-driven approaches: *custom classes*, *spells*, *passives*, *UI additions*, even new mechanics and balance overhauls, all of them and many more are possible with those tools alone. The community has built massive projects entirely utilizing those frameworks.
+And honestly, that openness is one of the reasons this project exists at all. For most mods, the official ecosystem is more than enough. The [BG3 Mod Manager](https://github.com/LaughingLeader/BG3ModManager), together with Larian’s toolkit and [Norbyte's Script Extender](https://github.com/Norbyte/bg3se) support, allows creators to build remarkably sophisticated modifications without ever touching the native executable. Entire gameplay systems can be rewritten through data-driven approaches: *custom classes*, *spells*, *passives*, *UI additions*, even new mechanics and balance overhauls, all of them and many more are possible with those tools alone. The community has built massive projects entirely utilizing those frameworks.
 While I was researching about this project, I found existing mods capable of manipulating dialogue roll outcomes entirely through Script Extender and Lua. Mods like [manual dice roll systems](https://www.nexusmods.com/baldursgate3/mods/21070) already demonstrated that BG3’s scripting layer could influence rolls at a fairly high level.
 
 So the obvious question becomes: If the modding ecosystem is already this powerful… why go native?
 
-At first, it honestly seemed possible that the entire system could live comfortably inside the existing BG3 modding ecosystem. Between the BG3 Mod Manager, Script Extender, Lua hooks, and Osiris scripting, the game already exposes an impressive amount of functionality and this is how I started working on it. The problems started to appear when I wanted to communicate with an external real-time application. That became one of the defining reasons the project eventually crossed from “traditional modding” into native engine integration. So, since I was already familiar with native modding from other projects, I decided to continue down that path. Anyway, more on this app later in [Part 2](## Part 2 — Teaching Windows to Talk to Dice). Now let's focus on the technical details of how I found and hooked the dice roll function.
+At first, it honestly seemed possible that the entire system could live comfortably inside the existing BG3 modding ecosystem. Between the BG3 Mod Manager, Script Extender, Lua hooks, and Osiris scripting, the game already exposes an impressive amount of functionality and this is how I started working on it. The problems started to appear when I wanted to communicate with an external real-time application. That became one of the defining reasons the project eventually crossed from “traditional modding” into native engine integration. So, since I was already familiar with native modding from other projects, I decided to continue down that path. Anyway, more on this app later in [Part 2](#part-2--teaching-windows-to-talk-to-dice). Now let's focus on the technical details of how I found and hooked the dice roll function.
 
 ### The entry point
 
 The first thing I wanted was to be able to attach to the game and install my hooks via MinHook. There are some native loaders available for BG3, the problem with all the ones I found (e.g., [Native Mod Loader](https://www.nexusmods.com/baldursgate3/mods/944), [Yet-Another-BG3-Native-Mod-Loader](https://github.com/MolotovCherry/Yet-Another-BG3-Native-Mod-Loader)) is that the injection is relying on a proxy DLL that needs to be placed in the game's directory and could easily break whenever there is a patch of the game.
 
-I wanted something more trivial, and I wanted something that can be installed/uninstalled very easily. That's why I prefered to use a previous project that lets you masqurade as a system DLL and get loaded by the game automatically. In BG3's case, this system lib was `xinput1_4.dll` and I used [O⁻](https://github.com/tpetsas/o-negative/) to load my mod. Since BG3 uses this DLL natively, if you are playing on Steam, Steam Input should be disabled, otherwise the `xinput1_4.dll` will never get loaded, which means the mod will never get loaded too. So, this is a limitation of this approach. I would say actually that this is not a big deal, since BG3 has native support for all the popular controllers out there, so you should be good. Enabling Steam Input, is yet another way to disable this mod as well.
+I wanted something more trivial, and I wanted something that can be installed/uninstalled very easily. That's why I preferred to use a previous project that lets you masquerade as a system DLL and get loaded by the game automatically. In BG3's case, this system lib was `xinput1_4.dll` and I used [O⁻](https://github.com/tpetsas/o-negative/) to load my mod. Since BG3 uses this DLL natively, if you are playing on Steam, Steam Input should be disabled, otherwise the `xinput1_4.dll` will never get loaded, which means the mod will never get loaded too. So, this is a limitation of this approach. I would say actually that this is not a big deal, since BG3 has native support for all the popular controllers out there, so you should be good. Enabling Steam Input, is yet another way to disable this mod as well.
 
 ### Descending into Ghidra
 
-Usually, I would start off by using a debugger like [x64dbg](https://x64dbg.com/) or even [Cheat Engine](https://www.cheatengine.org/)'s one to attach to the game to try to discover specific function by observing memory changes or setting breakpoints, but for this project I jumped straight into Ghidra and try to find the right function by analyzing the decompiled code and searching for functions that look like they are handling dice rolls or having strings related to dice rolls, e.g., "Roll", "Dice", "Resolve", etc.
+Usually, I would start off by using a debugger like [x64dbg](https://x64dbg.com/) or even [Cheat Engine](https://www.cheatengine.org/)'s one to attach to the game to try to discover a specific function by observing memory changes or setting breakpoints, but for this project I jumped straight into Ghidra and tried to find the right function by analyzing the decompiled code and searching for functions that look like they are handling dice rolls or having strings related to dice rolls, e.g., "Roll", "Dice", "Resolve", etc.
 
-Although, most of the functions of the game and especially from the engine are obfuscated and the symbols are not present in the binary, the strings are still there which making finding the right function much easier. I wouldn't say that I faced any particular obstacle there regarding finding dice roll related functions, but it was a bit of a challenge to find the right function that actually handles the dice roll logic, because as it turns out the game has a lot of intermediary structures, helper functions, UI representations, and copied roll states that look authoritative without actually being responsible for the final outcome of the roll.
+Although, most of the functions of the game and especially from the engine are obfuscated and the symbols are not present in the binary, the strings are still there, which makes finding the right function much easier. I wouldn't say that I faced any particular obstacle there regarding finding dice roll related functions, but it was a bit of a challenge to find the right function that actually handles the dice roll logic, because as it turns out the game has a lot of intermediary structures, helper functions, UI representations, and copied roll states that look authoritative without actually being responsible for the final outcome of the roll.
 
 That distinction became one of the central themes of the entire reverse engineering journey.
 
@@ -110,7 +110,7 @@ Even after forcing obviously natural 20s against a difficulty class of 15, the g
 
 That was the moment where it became clear that I was not modifying the authoritative gameplay state. I was patching something downstream, most likely a copied or presentation-oriented structure used by the UI or intermediate systems. And Baldur’s Gate 3 appears to have many of those.
 
-The deeper I went into the call graph following the references (i.e., `xrefs`) from the `RollCopy` function, the more I realized that the roll pipeline was heavily layered: *raw dice generation* , *temporary state structures*, *copied roll payloads*, *UI-related roll data* ,*dialogue-specific representations*, and finally... *final resolution structures* (no pun intended, lol!).
+The deeper I went into the call graph following the references (i.e., `xrefs`) from the `RollCopy` function, the more I realized that the roll pipeline was heavily layered: *raw dice generation*, *temporary state structures*, *copied roll payloads*, *UI-related roll data*, *dialogue-specific representations*, and finally... *final resolution structures* (no pun intended, lol!).
 
 Several functions appeared to participate in the process without actually being responsible for the final gameplay verdict.
 
@@ -169,7 +169,7 @@ This is a sanitized view; the real struct has many more fields between these (th
 
 If you haven't seen them: [Pixels dice](https://gamewithpixels.com/) are physical polyhedral dice with a tiny battery, an accelerometer, an LED matrix, and a Bluetooth Low Energy radio embedded inside. They do whatever dice do, but they also tell your computer or your phone what they landed on.
 
-I built the Windows-side integration on top of [PixelsWinCpp](https://github.com/GameWithPixels/PixelsWinCpp), a C++ library by the same folks who make the dice. Out of the box, it lets you scan, connect, and receive roll-state notifications. The official github repository has a nice example project that demonstrates the basic functionality via a console application. Since I wanted something that can run in the background and communitcate with my mod but at the same time be easy to debug, I decided to build a tray application that can show the connection status of each die and also log the roll events. I chose to build a tray application because it's easy to debug and I can see the connection status of each die at a glance. I named it `PixelsDiceTray` (like literally a dice tray where you roll your dice :P).
+I built the Windows-side integration on top of [PixelsWinCpp](https://github.com/GameWithPixels/PixelsWinCpp), a C++ library by the same folks who make the dice. Out of the box, it lets you scan, connect, and receive roll-state notifications. The official github repository has a nice example project that demonstrates the basic functionality via a console application. Since I wanted something that can run in the background and communicate with my mod but at the same time be easy to debug, I decided to build a tray application that can show the connection status of each die and also log the roll events. I chose to build a tray application because it's easy to debug and I can see the connection status of each die at a glance. I named it `PixelsDiceTray` (like literally a dice tray where you roll your dice :P).
 
 
 <table>
@@ -259,7 +259,7 @@ Enough with all the technical stuff. I could keep going all day about the BLE qu
 3. Injects the result into the game's dialogue system and automatically triggers the roll
 4. The animation starts automatically and the roll result reflects the actual value rolled
 
-It's simple, it's effective, and it works flawlessly with the ASUS USB-BT500 dongle. I've had some much fun so far with it! Let's see it in action:
+It's simple, it's effective, and it works flawlessly with the ASUS USB-BT500 dongle. I've had so much fun so far with it! Let's see it in action:
 
 <figure style="margin: 0; text-align:center;">
   <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
@@ -275,14 +275,14 @@ It's simple, it's effective, and it works flawlessly with the ASUS USB-BT500 don
     <em>BG3 Smart Dice Rolls Mod in action!</em>
 </figure>
 
-It works with mouse & keyboard, as well as with gamepads. It works also on coop mode. Both players can share the dice. It suppport multiple dice rolling at the same time, e.g., advantage/disadvantage rolls.
+It works with mouse & keyboard, as well as with gamepads. It works also on coop mode. Both players can share the dice. It supports multiple dice rolling at the same time, e.g., advantage/disadvantage rolls.
 
 ---
 
 
 ## Go Roll Some Dice
 
-The mod is live and working. If you want to try it out or poke around the code, everything is on GitHub: The mod itself is at [tpetsas/bg3-smart-dice-rolls](https://github.com/tpetsas/bg3-smart-dice-rolls), the companion Pixles Tray App is at: [tpetsas/pixels-tray-app](https://github.com/tpetsas/PixelsCpp). Nexus Mods page: [Baldur's Gate 3 - Smart Dice Rolls](https://www.nexusmods.com/baldursgate3/mods/XXXX)
+The mod is live and working. If you want to try it out or poke around the code, everything is on GitHub: The mod itself is at [tpetsas/bg3-smart-dice-rolls](https://github.com/tpetsas/bg3-smart-dice-rolls), the companion Pixels Tray App is at: [tpetsas/pixels-tray-app](https://github.com/tpetsas/PixelsCpp). Nexus Mods page: [Baldur's Gate 3 - Smart Dice Rolls](https://www.nexusmods.com/games/baldursgate3/mods/22797)
 
 
 ### Credits
