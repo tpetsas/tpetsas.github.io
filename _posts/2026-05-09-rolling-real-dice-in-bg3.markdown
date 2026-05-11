@@ -282,7 +282,7 @@ It works with mouse & keyboard, as well as with gamepads. It works also on coop 
 
 ## Go Roll Some Dice
 
-The mod is live and working. If you want to try it out or poke around the code, everything is on GitHub: The mod itself is at [tpetsas/bg3-smart-dice-rolls](https://github.com/tpetsas/bg3-smart-dice-rolls), the companion Pixels Tray App is at: [tpetsas/pixels-tray-app](https://github.com/tpetsas/PixelsCpp). Nexus Mods page: [Baldur's Gate 3 - Smart Dice Rolls](https://www.nexusmods.com/games/baldursgate3/mods/22797)
+The mod is live and working. If you want to try it out or poke around the code, everything is on GitHub: The mod itself is at [tpetsas/bg3-smart-dice-rolls](https://github.com/tpetsas/bg3-smart-dice-rolls), the companion Pixels Tray App is at: [tpetsas/pixels-tray-app](https://github.com/tpetsas/PixelsCpp). Nexus Mods page: [Baldur's Gate 3 - Smart Dice Rolls](https://www.nexusmods.com/baldursgate3/mods/22797)
 
 
 ### Credits
