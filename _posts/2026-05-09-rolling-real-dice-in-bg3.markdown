@@ -280,8 +280,16 @@ It works with mouse & keyboard, as well as with gamepads. It works also on coop 
 ---
 
 
-## What's Next
+## Go Roll Some Dice
 
-The mod is on GitHub at [tpetsas/bg3-smart-dice-rolls](https://github.com/tpetsas/bg3-smart-dice-rolls). The Pixels Tray App is also on github: [tpetsas/pixels-tray-app](https://github.com/tpetsas/PixelsCpp). Hooking is built on [MinHook](https://github.com/TsudaKageyu/minhook). Nexus Mods page: [Baldur's Gate 3 - Smart Dice Rolls](https://www.nexusmods.com/baldursgate3/mods/XXXX).
+The mod is live and working. If you want to try it out or poke around the code, everything is on GitHub: The mod itself is at [tpetsas/bg3-smart-dice-rolls](https://github.com/tpetsas/bg3-smart-dice-rolls), the companion Pixles Tray App is at: [tpetsas/pixels-tray-app](https://github.com/tpetsas/PixelsCpp). Nexus Mods page: [Baldur's Gate 3 - Smart Dice Rolls](https://www.nexusmods.com/baldursgate3/mods/XXXX)
+
+
+### Credits
+
+- Hooking is built on [MinHook](https://github.com/TsudaKageyu/minhook).
+- Tray App is based on [PixelsWinCpp](https://github.com/GameWithPixels/PixelsWinCpp).
+
+---
 
 Roll well. 🎲🧙‍♂️⚔️🐲🍺 (There should be a D20 emoji! Nerds out there unite!)
